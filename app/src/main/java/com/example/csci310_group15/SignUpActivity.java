@@ -15,11 +15,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -30,8 +35,10 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText ident;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
+    private StorageReference storageRef;
     private ImageView img;
     private Uri imgUri;
+    private Uri downloadURL;
     private static String[] roles = {"undergrad", "grad", "faculty", "staff"};
 
 
@@ -51,7 +58,9 @@ public class SignUpActivity extends AppCompatActivity {
         img = findViewById(R.id.imageView);
         mAuth = FirebaseAuth.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();
+        storageRef = FirebaseStorage.getInstance().getReference();
         imgUri = null;
+        downloadURL = null;
 
     }
 
@@ -68,6 +77,29 @@ public class SignUpActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             imgUri = data.getData();
             img.setImageURI(imgUri);
+
+            StorageReference photoRef = storageRef.child("images").child(mAuth.getUid());
+            photoRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            downloadURL = uri;
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            System.out.println("Error getting URL");
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    System.out.println("Error in image upload");
+                }
+            });
         }
     }
 
@@ -111,7 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             String uid = mAuth.getUid();
-                            User user = new User(nam, mail, standing, imgUri.toString(), id, uid);
+                            User user = new User(nam, mail, standing, downloadURL.toString(), id, uid);
                             myRef.child("users").child(uid).setValue(user);
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

@@ -1,6 +1,7 @@
 package com.example.csci310_group15;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Do nothing
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("uid", uid);
+                context.startActivity(intent);
             }
         });
     }

@@ -54,8 +54,6 @@ public class ChatListActivity extends AppCompatActivity {
                     users.add(curr);
                 }
                 adapter.notifyDataSetChanged();
-                System.out.println("HEYYYYY");
-                System.out.println(users.size());
             }
 
             @Override

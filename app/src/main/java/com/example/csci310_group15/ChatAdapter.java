@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     private ArrayList<Message> messages;
 
@@ -22,28 +22,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         if (viewType == 0) {
-            View view = LayoutInflater.from(parent.getContext())
+            view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.send, parent, false);
-            return new ViewHolderSend(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext())
+            view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.receive, parent, false);
-            return new ViewHolderReceive(view);
         }
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder.getClass() == ViewHolderSend.class) {
-            ViewHolderSend send = (ViewHolderSend) holder;
-            send.getTextMessage().setText(messages.get(position).message);
-
-        } else {
-            ViewHolderReceive receive = (ViewHolderReceive) holder;
-            receive.getTextMessage().setText(messages.get(position).message);
-        }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.getTextMessage().setText(messages.get(position).message);
     }
 
     @Override
@@ -61,21 +54,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public static class ViewHolderSend extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textMessage;
-        public ViewHolderSend(View view) {
-            super(view);
-            textMessage = view.findViewById(R.id.textMessage);
-        }
-        public TextView getTextMessage() {
-            return textMessage;
-        }
-
-    }
-
-    public static class ViewHolderReceive extends RecyclerView.ViewHolder {
-        private final TextView textMessage;
-        public ViewHolderReceive(View view) {
+        public ViewHolder(View view) {
             super(view);
             textMessage = view.findViewById(R.id.textMessage);
         }

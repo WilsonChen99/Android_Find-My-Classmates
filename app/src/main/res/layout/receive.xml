@@ -17,10 +17,10 @@
 
         <TextView
             android:id="@+id/textMessage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="This is a message"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_gravity="center"
             android:padding="10dp"
             android:textColor="@color/white"
             android:maxWidth="300dp"/>

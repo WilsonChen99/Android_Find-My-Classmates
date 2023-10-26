@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<Message> messages;
     private String senderHash = null;
     private String receiverHash = null;
+    private String receiverUid = null;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
 
@@ -48,15 +50,15 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
-        String uid = intent.getStringExtra("uid");
+        receiverUid = intent.getStringExtra("uid");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(name);
 
-        senderHash = mAuth.getUid() + uid;
-        receiverHash = uid + mAuth.getUid();
+        senderHash = mAuth.getUid() + receiverUid;
+        receiverHash = receiverUid + mAuth.getUid();
 
-        myRef.child("chats").child(senderHash).child("texts").addValueEventListener(new ValueEventListener() {
+        myRef.child("chats").child(senderHash).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messages.clear();
@@ -66,9 +68,10 @@ public class ChatActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
                 int pos = messages.size() - 1;
-                recycle.scrollToPosition(pos);
+                if (pos >= 0) {
+                    recycle.scrollToPosition(pos);
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Error in getting previous chats");
@@ -77,16 +80,71 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        // Check to see if user has blocked you
-        // Add user to contacts list
-        // Notify other user through android
+        myRef.child("blockedusers").child(receiverUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean flag = false;
+                for (DataSnapshot child: snapshot.getChildren()) {
+                    String blockedUser = child.getValue(String.class);
+                    if (blockedUser.equals(mAuth.getUid())) {
+                        Toast.makeText(ChatActivity.this,"You can no longer send messages to this user", Toast.LENGTH_LONG).show();
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    pushMessage();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting blocked users");
+            }
+        });
+    }
+
+    public void pushMessage() {
         Message message = new Message(text.getText().toString(), mAuth.getUid());
-        myRef.child("chats").child(senderHash).child("texts").push().setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.child("chats").child(senderHash).push().setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                myRef.child("chats").child(receiverHash).child("texts").push().setValue(message);
+                myRef.child("chats").child(receiverHash).push().setValue(message);
             }
         });
         text.setText("");
+        checkContacts();
+        myRef.child("usersNotify").child(receiverUid).push().setValue("New Message");
+    }
+
+    public void checkContacts() {
+        myRef.child("contacts").child(receiverUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean flag = false;
+                for (DataSnapshot child: snapshot.getChildren()) {
+                    String contact = child.getValue(String.class);
+                    if (contact.equals(mAuth.getUid())) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    addToContacts();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting contacts");
+            }
+        });
+    }
+
+    public void addToContacts() {
+        myRef.child("contacts").child(mAuth.getUid()).push().setValue(receiverUid).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                myRef.child("contacts").child(receiverUid).push().setValue(mAuth.getUid());
+            }
+        });
     }
 }

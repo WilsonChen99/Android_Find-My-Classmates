@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +26,7 @@ public class ChatListActivity extends AppCompatActivity {
     private ChatListAdapter adapter;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
+    private boolean onPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,5 +64,45 @@ public class ChatListActivity extends AppCompatActivity {
                 System.out.println("Error in ChatListActivity");
             }
         });
+
+        myRef.child("usersNotify").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean flag = false;
+                for (DataSnapshot child: snapshot.getChildren()) {
+                    String uid = child.getKey();
+                    if (uid.equals(mAuth.getUid())) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag && onPage) {
+                    myRef.child("usersNotify").child(mAuth.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(ChatListActivity.this,"You have a new message!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else if (flag) {
+                    myRef.child("usersNotify").child(mAuth.getUid()).removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting notifications");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onPage = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        onPage = false;
     }
 }

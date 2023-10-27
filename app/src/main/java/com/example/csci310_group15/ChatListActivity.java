@@ -44,19 +44,26 @@ public class ChatListActivity extends AppCompatActivity {
         recycle.setLayoutManager(new LinearLayoutManager(this));
         recycle.setAdapter(adapter);
 
-        // Once chat is finished update this to actually get recent conversations
-        myRef.child("users").addValueEventListener(new ValueEventListener() {
+        myRef.child("contacts").child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
                 for (DataSnapshot child: snapshot.getChildren()) {
-                    User curr = child.getValue(User.class);
-                    if (curr.getUid().equals(mAuth.getUid())) {
-                        continue;
-                    }
-                    users.add(curr);
+                    String uid = child.getValue(String.class);
+                    myRef.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            users.add(user);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            System.out.println("Error retrieving user");
+                        }
+                    });
                 }
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -68,23 +75,13 @@ public class ChatListActivity extends AppCompatActivity {
         myRef.child("usersNotify").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean flag = false;
-                for (DataSnapshot child: snapshot.getChildren()) {
-                    String uid = child.getKey();
-                    if (uid.equals(mAuth.getUid())) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag && onPage) {
+                if (snapshot.hasChild(mAuth.getUid()) && onPage) {
                     myRef.child("usersNotify").child(mAuth.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(ChatListActivity.this,"You have a new message!", Toast.LENGTH_LONG).show();
                         }
                     });
-                } else if (flag) {
-                    myRef.child("usersNotify").child(mAuth.getUid()).removeValue();
                 }
             }
             @Override

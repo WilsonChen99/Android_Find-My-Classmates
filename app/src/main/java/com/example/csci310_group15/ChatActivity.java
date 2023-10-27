@@ -33,6 +33,7 @@ public class ChatActivity extends AppCompatActivity {
     private String receiverUid = null;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
+    private boolean onPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,23 +78,41 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println("Error in getting previous chats");
             }
         });
+
+        myRef.child("usersNotify").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(mAuth.getUid()) && onPage) {
+                    myRef.child("usersNotify").child(mAuth.getUid()).removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting notifications");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onPage = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        onPage = false;
     }
 
     public void sendMessage(View view) {
-        myRef.child("blockedusers").child(receiverUid).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("blockedusers").child(receiverUid).orderByValue().equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean flag = false;
-                for (DataSnapshot child: snapshot.getChildren()) {
-                    String blockedUser = child.getValue(String.class);
-                    if (blockedUser.equals(mAuth.getUid())) {
-                        Toast.makeText(ChatActivity.this,"You can no longer send messages to this user", Toast.LENGTH_LONG).show();
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) {
+                if (!snapshot.exists()) {
                     pushMessage();
+                } else {
+                    Toast.makeText(ChatActivity.this,"You can no longer send messages to this user", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -117,18 +136,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void checkContacts() {
-        myRef.child("contacts").child(receiverUid).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("contacts").child(receiverUid).orderByValue().equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean flag = false;
-                for (DataSnapshot child: snapshot.getChildren()) {
-                    String contact = child.getValue(String.class);
-                    if (contact.equals(mAuth.getUid())) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) {
+                if (!snapshot.exists()) {
                     addToContacts();
                 }
             }

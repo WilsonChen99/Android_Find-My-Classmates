@@ -50,7 +50,7 @@ public class ChatListActivity extends AppCompatActivity {
                 users.clear();
                 for (DataSnapshot child: snapshot.getChildren()) {
                     String uid = child.getValue(String.class);
-                    myRef.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+                    myRef.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user = snapshot.getValue(User.class);

@@ -3,9 +3,13 @@ package com.example.csci310_group15;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -48,7 +52,7 @@ public class ChatListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
-                for (DataSnapshot child: snapshot.getChildren()) {
+                for (DataSnapshot child : snapshot.getChildren()) {
                     String uid = child.getValue(String.class);
                     myRef.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -79,7 +83,15 @@ public class ChatListActivity extends AppCompatActivity {
                     myRef.child("usersNotify").child(mAuth.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(ChatListActivity.this,"You have a new message!", Toast.LENGTH_LONG).show();
+                            // Still good for API 24
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatListActivity.this)
+                                    .setSmallIcon(R.drawable.ic_launcher_background)
+                                    .setContentTitle("Find My Classmates")
+                                    .setContentText("You have a new message!")
+                                    .setAutoCancel(true);
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ChatListActivity.this);
+                            // Ignore
+                            notificationManager.notify(1, builder.build());
                         }
                     });
                 }

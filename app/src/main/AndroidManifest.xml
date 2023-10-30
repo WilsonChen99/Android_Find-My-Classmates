@@ -23,6 +23,9 @@
             android:name=".ChatListActivity"
             android:exported="false" />
         <activity
+            android:name=".ChatListFromClassActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity

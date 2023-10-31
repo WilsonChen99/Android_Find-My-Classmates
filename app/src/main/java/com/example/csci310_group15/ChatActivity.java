@@ -106,7 +106,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        myRef.child("blockedusers").child(receiverUid).orderByValue().equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("blockedUsers").child(receiverUid).orderByValue().equalTo(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {

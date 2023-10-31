@@ -2,6 +2,7 @@ package com.example.csci310_group15;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +91,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                         }
                     });
                 } else {
-                    holder.getBlockBtn().setText("Blocked");
+                    holder.getBlockBtn().setBackgroundResource(R.drawable.block_btn);
                     holder.getBlockBtn().setEnabled(false);
                     holder.itemView.setOnClickListener(null);
                 }

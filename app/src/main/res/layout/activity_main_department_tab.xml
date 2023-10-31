@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:clickable="true"
+    >
+    <!-- Section for the department tab -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/class_tab_bg"
+        android:backgroundTint="@color/cardinal"
+        >
+
+        <TextView
+            android:id="@+id/department"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_weight="0.1"
+            />
+
+        <ImageView
+            android:id="@+id/expandBttn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/triangle"
+            android:layout_weight="1.5"
+            android:rotation="-90"
+            android:contentDescription="Extend Button"
+            />
+
+    </LinearLayout>
+
+    <!-- Section for Associated classes -->
+    <LinearLayout
+        android:id="@+id/classGrid"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
+</LinearLayout>
+

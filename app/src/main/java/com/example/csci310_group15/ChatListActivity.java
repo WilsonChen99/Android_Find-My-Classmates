@@ -101,6 +101,10 @@ public class ChatListActivity extends AppCompatActivity {
                 System.out.println("Error in getting notifications");
             }
         });
+
+        // [ Load Menu Bar ]
+        MenuBar menuBar = new MenuBar();
+        menuBar.loadMenuBar(this, findViewById(R.id.menu_bar_chat_list), MenuBar.Page.Chat);
     }
 
     @Override

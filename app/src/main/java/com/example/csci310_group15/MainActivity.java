@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         // [ Load from DB ]
         load(); // Load departments & classes info
+
+        // [ Load Menu Bar ]
+        MenuBar menuBar = new MenuBar();
+        menuBar.loadMenuBar(this, findViewById(R.id.menu_bar_main), MenuBar.Page.Home);
     }
 
     // ======================================================================== [ HELPER FUNCTIONS ]

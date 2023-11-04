@@ -59,7 +59,7 @@ public class MakeRate extends AppCompatActivity {
             return;
         }
 
-        Rating rating = new Rating(workload, scor, attend, hw, comm);
+        Rating rating = new Rating(workload, scor, attend, hw, comm, 0);
 
         myRef.child("departments").child(department).child(depID).child("ratings").push().setValue(rating);
 

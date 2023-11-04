@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="220dp"
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@drawable/rate_tab_bg"
@@ -97,14 +97,49 @@
                 android:text="@string/rate_tab_text_NA"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+            <Button
+                android:id="@+id/rate_tab_upvote"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:text="@string/rate_page_up_vote"
+                android:gravity="center"
+                android:textSize="14sp"
+                />
+            <Button
+                android:id="@+id/rate_tab_downvote"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:text="@string/rate_page_down_vote"
+                android:gravity="center"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/rate_tab_vote"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="@string/rate_tab_text_NA"
+                />
+
+        </LinearLayout>
         <Button
-            android:id="@+id/additional_comment_bttn"
+            android:id="@+id/rate_comment_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/rate_tab_bttn"
             android:textColor="@color/white"
             android:background="@drawable/btn_bg"
+            android:layout_marginTop="5dp"
             />
 
     </LinearLayout>

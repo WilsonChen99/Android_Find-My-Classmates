@@ -22,6 +22,8 @@
     <string name="rate_tab_text_3rd">LATE WORK</string>
     <string name="rate_tab_bttn">ADITIONAL COMMENTS</string>
     <string name="rate_page_rate_bttn">RATE</string>
+    <string name="rate_page_up_vote">UP</string>
+    <string name="rate_page_down_vote">DOWN</string>
     <!-- Profile Page -->
     <string name="title_activity_profile_configure">ProfileConfigureActivity</string>
     <string-array name="standings">

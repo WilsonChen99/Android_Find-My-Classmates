@@ -6,22 +6,26 @@ public class Rating {
     private String attendance = null;
     private String lateHW = null;
     private String comment = null;
+    private int vote = 0;
 
     public Rating() {
 
     }
 
-    public Rating(String workload, String score, String attendance, String lateHW, String comment) {
+    public Rating(String workload, String score, String attendance, String lateHW, String comment, int vote) {
         this.workload = workload;
         this.score = score;
         this.attendance = attendance;
         this.lateHW = lateHW;
         this.comment = comment;
+        this.vote = vote;
     }
 
-    public String getWorkload() {
-        return workload;
-    }
+    public int  getVote() { return vote; }
+
+    public void setVote(int vote) { this.vote = vote;}
+
+    public String getWorkload() { return workload; }
 
     public void setWorkload(String workload) {
         this.workload = workload;

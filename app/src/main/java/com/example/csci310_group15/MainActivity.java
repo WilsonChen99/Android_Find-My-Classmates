@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Error: " + error);
             }
         });
+
+        // [ Load Menu Bar ]
+        loadMenuBar();
     }
 
     /**
@@ -213,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 // The user is NOT YET enrolled
                 else {
                     // Set onclick event for enrolling user in the class
-                    setActiveEnrollBttn(enrollBttn, classmatesBttn, students, affiliatedClass);
+                    setActiveEnrollBttn(enrollBttn, rateBttn, classmatesBttn, students, affiliatedClass);
                     setInactiveRateBttn(rateBttn, affiliatedClass);
                     setInactiveClassmatesBttn(classmatesBttn, affiliatedClass);
                 }
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
      * @param students the reference from DB to allow set up onclick event for enrolling student
      * @param affiliatedClass data from DB for setup
      */
-    private void setActiveEnrollBttn(Button enrollBttn, Button classmatesBttn, DatabaseReference students, DataSnapshot affiliatedClass)
+    private void setActiveEnrollBttn(Button enrollBttn, Button rateBttn, Button classmatesBttn, DatabaseReference students, DataSnapshot affiliatedClass)
     {
         enrollBttn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -277,6 +280,8 @@ public class MainActivity extends AppCompatActivity {
                 disableEnrollBttn(enrollBttn, affiliatedClass);
                 // Enable classmates chat list button
                 enableClassmatesBttn(classmatesBttn, affiliatedClass);
+                // Enaable rate button
+                enableRateBttn(rateBttn, affiliatedClass);
             }
         });
     }
@@ -286,6 +291,14 @@ public class MainActivity extends AppCompatActivity {
         // Change to active color
         bttn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.cardinal)));
         // Set onClick event redirect to rate page
+        bttn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MainActivity.this, RatePageList.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
 
     private void setInactiveRateBttn(Button bttn, DataSnapshot affiliatedClass)
@@ -372,6 +385,34 @@ public class MainActivity extends AppCompatActivity {
         // Create & show alert
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    // [ MENU BAR ] ==================================================================
+    private void loadMenuBar()
+    {
+        Button btnChat = findViewById(R.id.btnChat);
+        Button btnHome = findViewById(R.id.btnHome);
+        Button btnProf = findViewById(R.id.btnProf);
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        btnChat.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ChatListActivity.class);
+            startActivity(intent);
+        });
+        btnHome.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+        btnLogout.setOnClickListener(view -> {
+            mAuth.signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        btnProf.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
 }

@@ -15,6 +15,11 @@
     <string name="menu_bar_home">HOME</string>
     <string name="menu_bar_profile">PROFILE</string>
     <string name="menu_bar_logout">LOGOUT</string>
+    <!-- Rate Page -->
+    <string name="rate_tab_text_1st">ATTENDANCE</string>
+    <string name="rate_tab_text_2nd">WORKLOAD</string>
+    <string name="rate_tab_text_3rd">LATE WORK</string>
+    <string name="rate_tab_bttn">ADITIONAL COMMENTS</string>
     <!-- Profile Page -->
     <string name="title_activity_profile_configure">ProfileConfigureActivity</string>
     <string-array name="standings">

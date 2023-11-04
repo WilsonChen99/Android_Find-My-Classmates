@@ -9,9 +9,62 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/user_card" />
+        tools:listitem="@layout/user_card"
+        app:layout_constraintBottom_toTopOf="@id/menu"/>
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:outlineAmbientShadowColor="@color/cardinal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="Chats"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:layout_marginRight="3dp"/>
+
+        <Button
+            android:id="@+id/btnHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Home"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:layout_marginRight="3dp"/>
+
+        <Button
+            android:id="@+id/btnProf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="Profile"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:layout_marginRight="3dp"/>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Logout"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:layout_marginRight="3dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

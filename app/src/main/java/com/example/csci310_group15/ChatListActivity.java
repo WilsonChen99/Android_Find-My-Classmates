@@ -9,8 +9,10 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +52,29 @@ public class ChatListActivity extends AppCompatActivity {
         adapter = new ChatListAdapter(this, users);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         recycle.setAdapter(adapter);
+        Button btnChat = findViewById(R.id.btnChat);
+        Button btnHome = findViewById(R.id.btnHome);
+        Button btnProf = findViewById(R.id.btnProf);
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        btnChat.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ChatListActivity.class);
+            startActivity(intent);
+        });
+        btnHome.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+        btnLogout.setOnClickListener(view -> {
+            mAuth.signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        btnProf.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        });
 
         myRef.child("contacts").child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override

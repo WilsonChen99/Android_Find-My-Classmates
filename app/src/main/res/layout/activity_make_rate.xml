@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MakeRate">
+
+    <TextView
+        android:id="@+id/workLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Workload (Light, Moderate, Heavy)"
+        app:layout_constraintBottom_toTopOf="@+id/work"
+        app:layout_constraintStart_toStartOf="@+id/work" />
+
+    <EditText
+        android:id="@+id/work"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="120dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/edit_text_bg"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/scoreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score (1 - 5)"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/score"
+        app:layout_constraintStart_toStartOf="@+id/score" />
+
+    <EditText
+        android:id="@+id/score"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/work"
+        android:background="@drawable/edit_text_bg"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/attendanceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Does the professor check attendance? (yes/no)"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/attendance"
+        app:layout_constraintStart_toStartOf="@+id/attendance" />
+
+    <EditText
+        android:id="@+id/attendance"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        android:background="@drawable/edit_text_bg"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/lateHWLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is late homework submission allowed? (yes/no)"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/lateHW"
+        app:layout_constraintStart_toStartOf="@+id/lateHW" />
+
+    <EditText
+        android:id="@+id/lateHW"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/attendance"
+        android:background="@drawable/edit_text_bg"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/otherCommLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other comments"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/otherComment"
+        app:layout_constraintStart_toStartOf="@+id/otherComment" />
+
+    <EditText
+        android:id="@+id/otherComment"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lateHW"
+        android:background="@drawable/edit_text_bg"
+        android:paddingLeft="5dp"/>
+
+
+    <Button
+        android:id="@+id/rateBtn"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:textColor="@color/white"
+        android:text="Submit Rating"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherComment"
+        android:background="@drawable/btn_bg"
+        android:onClick="goToRating"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

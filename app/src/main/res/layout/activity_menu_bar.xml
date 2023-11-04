@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:orientation="horizontal"
-    android:background="@color/cardinal"
     >
     <Button
         android:id="@+id/menu_bttn_left"

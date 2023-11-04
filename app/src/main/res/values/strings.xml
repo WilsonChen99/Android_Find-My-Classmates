@@ -13,5 +13,6 @@
         <item>Undergrad</item>
         <item>Grad</item>
         <item>Staff</item>
+        <item>Faculty</item>
     </string-array>
 </resources>

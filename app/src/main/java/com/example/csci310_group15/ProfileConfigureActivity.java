@@ -45,7 +45,7 @@ public class ProfileConfigureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Configure Profile");
+        actionBar.setTitle("CONFIGURE PROFILE");
         setContentView(R.layout.activity_profile_configure);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

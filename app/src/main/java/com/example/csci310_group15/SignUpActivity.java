@@ -50,6 +50,9 @@ public class SignUpActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("SIGN UP");
 
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);

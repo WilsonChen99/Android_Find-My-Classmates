@@ -40,6 +40,9 @@ public class ChatListActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("MY CHATS");
 
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         mAuth = FirebaseAuth.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();
         users = new ArrayList<User>();

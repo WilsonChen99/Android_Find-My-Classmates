@@ -40,6 +40,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         text = findViewById(R.id.message);
         messages = new ArrayList<Message>();
         adapter = new ChatAdapter(messages);

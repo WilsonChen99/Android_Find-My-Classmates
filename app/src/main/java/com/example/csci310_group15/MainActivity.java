@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("CLASSES");
 
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Connect DB
@@ -173,10 +176,11 @@ public class MainActivity extends AppCompatActivity {
             instructor.setId(View.generateViewId());
             classTime.setId(View.generateViewId());
 
-            // ====== [ Enroll Button Setup ] ======
+            // ====== [ Buttons Setup ] ======
             Button enrollBttn = classTab.findViewById(R.id.classTabBttnRight);
+            Button rateBttn = classTab.findViewById(R.id.classTabBttnMid);
             Button classmatesBttn = classTab.findViewById(R.id.classTabBttnLeft);
-            setButtons(enrollBttn, classmatesBttn, affiliatedClass);
+            setButtons(enrollBttn, rateBttn, classmatesBttn, affiliatedClass);
             // Reset button ids to avoid duplication
             enrollBttn.setId(View.generateViewId());
             classmatesBttn.setId(View.generateViewId());
@@ -194,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
      * @param classmatesBttn the classmates button to be setup
      * @param affiliatedClass the data from firebase necessary to setup button
      */
-    private void setButtons(Button enrollBttn, Button classmatesBttn, DataSnapshot affiliatedClass)
+    private void setButtons(Button enrollBttn, Button rateBttn, Button classmatesBttn, DataSnapshot affiliatedClass)
     {
         DatabaseReference students = affiliatedClass.child("students").getRef();
         // Look up for curr use in current classes registration pool
@@ -207,12 +211,14 @@ public class MainActivity extends AppCompatActivity {
                 if(snapshot.exists())
                 {
                     enableClassmatesBttn(classmatesBttn, affiliatedClass);
+                    enableRateBttn(rateBttn, affiliatedClass);
                     disableEnrollBttn(enrollBttn, affiliatedClass);
                 }
                 // The user is NOT YET enrolled
                 else {
                     // Set onclick event for enrolling user in the class
                     setActiveEnrollBttn(enrollBttn, classmatesBttn, students, affiliatedClass);
+                    setInactiveRateBttn(rateBttn, affiliatedClass);
                     setInactiveClassmatesBttn(classmatesBttn, affiliatedClass);
                 }
             }
@@ -275,6 +281,26 @@ public class MainActivity extends AppCompatActivity {
                 disableEnrollBttn(enrollBttn, affiliatedClass);
                 // Enable classmates chat list button
                 enableClassmatesBttn(classmatesBttn, affiliatedClass);
+            }
+        });
+    }
+
+    private void enableRateBttn(Button bttn, DataSnapshot affiliatedClass)
+    {
+        // Change to active color
+        bttn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.cardinal)));
+        // Set onClick event redirect to rate page
+    }
+
+    private void setInactiveRateBttn(Button bttn, DataSnapshot affiliatedClass)
+    {
+        bttn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                String title = affiliatedClass.child("num").getValue().toString();
+                String mssg = "Rate function are limited to enrolled students.";
+                showAlertDialog(title, mssg);
             }
         });
     }

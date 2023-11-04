@@ -15,7 +15,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tz;
 
     ImageView profilePic;
+    private boolean onPage = false;
 
 
     @Override
@@ -96,6 +101,32 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        myRef.child("usersNotify").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(mAuth.getUid()) && onPage) {
+                    myRef.child("usersNotify").child(mAuth.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            // Still good for API 24
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(ProfileActivity.this)
+                                    .setSmallIcon(R.drawable.ic_launcher_background)
+                                    .setContentTitle("Find My Classmates")
+                                    .setContentText("You have a new message!")
+                                    .setAutoCancel(true);
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(ProfileActivity.this);
+                            // Ignore
+                            notificationManager.notify(1, builder.build());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting notifications");
+            }
+        });
+
         // To update user value
         // myRef.child("users").child(mAuth.getUid()).child("name").setValue("sdknfkfj");
 
@@ -122,5 +153,17 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, ProfileConfigureActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onPage = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        onPage = false;
     }
 }

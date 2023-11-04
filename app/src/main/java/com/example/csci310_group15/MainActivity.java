@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     // Others
     private HashMap<String, Boolean> mDepartmentIsClicked = new HashMap<>();
 
+    private boolean onPage = false;
+
     // [ Methods ]
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +54,38 @@ public class MainActivity extends AppCompatActivity {
         // Connect DB
         mAuth = FirebaseAuth.getInstance();
         mRef = FirebaseDatabase.getInstance().getReference("departments");
+        DatabaseReference otherRef = FirebaseDatabase.getInstance().getReference();
 
         // [ Load from DB ]
         load(); // Load departments & classes info
+
+        // Handle Notifications
+
+        otherRef.child("usersNotify").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(mAuth.getUid()) && onPage) {
+                    otherRef.child("usersNotify").child(mAuth.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            // Still good for API 24
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this)
+                                    .setSmallIcon(R.drawable.ic_launcher_background)
+                                    .setContentTitle("Find My Classmates")
+                                    .setContentText("You have a new message!")
+                                    .setAutoCancel(true);
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+                            // Ignore
+                            notificationManager.notify(1, builder.build());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error in getting notifications");
+            }
+        });
     }
 
     // ======================================================================== [ HELPER FUNCTIONS ]
@@ -424,4 +458,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onPage = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        onPage = false;
+    }
 }

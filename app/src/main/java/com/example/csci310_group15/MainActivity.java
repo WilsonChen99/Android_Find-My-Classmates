@@ -295,7 +295,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                // Prepare keys for navigating DB
+                String department = affiliatedClass.child("department").getValue().toString();
+                String id = affiliatedClass.child("id").getValue().toString();
+                String classNum = affiliatedClass.child("num").getValue().toString();
+                // Send intent
                 Intent intent = new Intent(MainActivity.this, RatePageList.class);
+                intent.putExtra("department", department);
+                intent.putExtra("id", id);
+                intent.putExtra("num", classNum);
+                // Invoke the redirection
                 MainActivity.this.startActivity(intent);
             }
         });

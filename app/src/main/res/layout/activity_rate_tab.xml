@@ -9,13 +9,14 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@drawable/rate_tab_bg"
+    android:layout_marginBottom="20dp"
     >
     <TextView
         android:id="@+id/rate_score"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="0.2"
-        android:text="5.0"
+        android:text="@string/rate_tab_text_NA"
         android:textSize="30sp"
         android:gravity="center"
         />
@@ -35,16 +36,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/rate_tab_text_1st"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/rate_tab_attendance"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Mandatory"
                 android:textSize="20sp"
                 android:gravity="center"
+                android:text="@string/rate_tab_text_NA"
                 />
         </LinearLayout>
         <LinearLayout
@@ -58,16 +60,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/rate_tab_text_2nd"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/rate_tab_workload"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Heavy"
                 android:textSize="20sp"
                 android:gravity="center"
+                android:text="@string/rate_tab_text_NA"
                 />
         </LinearLayout>
         <LinearLayout
@@ -81,23 +84,25 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/rate_tab_text_3rd"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/rate_tab_latework"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Allowed"
                 android:textSize="20sp"
                 android:gravity="center"
+                android:text="@string/rate_tab_text_NA"
                 />
         </LinearLayout>
         <Button
+            android:id="@+id/additional_comment_bttn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Comment"
+            android:text="@string/rate_tab_bttn"
             android:textColor="@color/white"
             android:background="@drawable/btn_bg"
             />

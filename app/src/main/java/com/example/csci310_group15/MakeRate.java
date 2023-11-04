@@ -23,11 +23,15 @@ public class MakeRate extends AppCompatActivity {
     private DatabaseReference myRef;
     private String department = null;
     private String depID = null;
+    private String classNum = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_rate);
+
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
 
         work = findViewById(R.id.work);
         score = findViewById(R.id.score);
@@ -40,6 +44,7 @@ public class MakeRate extends AppCompatActivity {
         Intent intent = getIntent();
         department = intent.getStringExtra("department");
         depID = intent.getStringExtra("id");
+        classNum = intent.getStringExtra("num");
     }
 
     public void goToRating(View view) {
@@ -57,5 +62,11 @@ public class MakeRate extends AppCompatActivity {
         Rating rating = new Rating(workload, scor, attend, hw, comm);
 
         myRef.child("departments").child(department).child(depID).child("ratings").push().setValue(rating);
+
+        Intent intent = new Intent(MakeRate.this, MainActivity.class);
+        intent.putExtra("department", department);
+        intent.putExtra("id", depID);
+        intent.putExtra("num", classNum);
+        MakeRate.this.startActivity(intent);
     }
 }

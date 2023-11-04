@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,8 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        actionBar.setTitle("New Title");
+        actionBar.setTitle("PROFILE");
         setContentView(R.layout.activity_user_profile);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -69,12 +67,10 @@ public class ProfileActivity extends AppCompatActivity {
         tx = findViewById(R.id.stand);
 
         profilePic = findViewById(R.id.imageViewProfile);
-        /*
         Button btnChat = findViewById(R.id.btnChat);
         Button btnHome = findViewById(R.id.btnHome);
         Button btnLogout = findViewById(R.id.btnLogout);
-        */
-        ImageButton btnConfigure = findViewById(R.id.btnConfigure);
+        Button btnConfigure = findViewById(R.id.btnConfigure);
 
         myRef.child("users").child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,7 +89,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // To update user value
         // myRef.child("users").child(mAuth.getUid()).child("name").setValue("sdknfkfj");
-        /*
         btnChat.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, ChatListActivity.class);
             startActivity(intent);
@@ -106,15 +101,10 @@ public class ProfileActivity extends AppCompatActivity {
             mAuth.signOut();
             finish();
         });
-        */
         btnConfigure.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, ProfileConfigureActivity.class);
             startActivity(intent);
         });
-
-        // [ Load Menu Bar ]
-        MenuBar menuBar = new MenuBar();
-        menuBar.loadMenuBar(ProfileActivity.this, findViewById(R.id.menu_bar_profile), MenuBar.Page.Profile);
 
     }
 

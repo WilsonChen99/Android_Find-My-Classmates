@@ -5,37 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@drawable/background"
+    android:background="@drawable/trojan"
     >
-    <ImageButton
+    <Button
         android:id="@+id/btnConfigure"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="50dp"
-        tools:src="@drawable/edit_text_bg"
         android:background="@drawable/edit_text_bg"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="5dp"
+        android:text="Settings"/>
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginBottom="345dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="395dp"
+        android:text=""
         android:textSize="30dp"
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:background="@drawable/edit_text_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/stand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginBottom="295dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="350dp"
         android:textSize="20dp"
-        android:text="TextView"
-        android:textColor="@color/white"
+        android:padding="5dp"
+        android:textAllCaps="true"
+        android:text=""
+        android:background="@drawable/edit_text_bg"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -100,21 +106,30 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="Chat" />
+                android:text="Chats"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/white"
+                android:layout_marginRight="3dp"/>
 
             <Button
                 android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Home" />
+                android:text="Home"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/white"
+                android:layout_marginRight="3dp"/>
 
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Logout" />
+                android:text="Logout"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/white"
+                android:layout_marginRight="3dp"/>
         </LinearLayout>
         -->
         <LinearLayout

@@ -20,6 +20,7 @@
         <item>Undergrad</item>
         <item>Grad</item>
         <item>Staff</item>
+        <item>Faculty</item>
     </string-array>
     <string name="title_activity_menu_bar">MenuBar</string>
     <!-- Strings used for fragments for navigation -->

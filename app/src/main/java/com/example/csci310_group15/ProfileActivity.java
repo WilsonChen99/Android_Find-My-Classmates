@@ -26,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -44,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     TextView tv;
     TextView tx;
+    TextView tz;
 
     ImageView profilePic;
 
@@ -58,19 +62,16 @@ public class ProfileActivity extends AppCompatActivity {
         getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
 
         setContentView(R.layout.activity_user_profile);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         load();
         //setContentView(R.layout.activity_profile);
-
-
-
     }
+
     private void load(){
         mAuth = FirebaseAuth.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();
         tv = findViewById(R.id.name);
         tx = findViewById(R.id.stand);
+        tz = findViewById(R.id.uscid);
 
         profilePic = findViewById(R.id.imageViewProfile);
         Button btnChat = findViewById(R.id.btnChat);
@@ -85,7 +86,8 @@ public class ProfileActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 tv.setText(user.getName());
                 tx.setText(user.getStanding());
-                profilePic.setImageBitmap(getBitmap(user.getUri()));
+                tz.setText(user.getUscID());
+                Picasso.get().load(user.getUri()).into(profilePic);
             }
 
             @Override
@@ -120,22 +122,5 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, ProfileConfigureActivity.class);
             startActivity(intent);
         });
-
-    }
-
-    private Bitmap getBitmap(String uri){
-        try {
-            URL url = new URL(uri);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setDoInput(true);
-            con.connect();
-            Bitmap profileBitmap = BitmapFactory.decodeStream(con.getInputStream());
-            return profileBitmap;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 }

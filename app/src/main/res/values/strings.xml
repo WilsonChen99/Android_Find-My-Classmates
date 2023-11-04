@@ -8,4 +8,10 @@
     <string name="main_page_name">CLASSES</string>
     <string name="class_tab_bttn_left">CLASSMATES</string>
     <string name="class_tab_bttn_right">ENROLL</string>
+    <string name="title_activity_profile_configure">ProfileConfigureActivity</string>
+    <string-array name="standings">
+        <item>Undergrad</item>
+        <item>Grad</item>
+        <item>Staff</item>
+    </string-array>
 </resources>

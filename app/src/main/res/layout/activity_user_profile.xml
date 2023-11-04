@@ -90,8 +90,6 @@
             android:layout_height="100dp"
             android:layout_weight="1" />
 
-
-        <!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,6 +120,17 @@
                 android:layout_marginRight="3dp"/>
 
             <Button
+                android:id="@+id/btnProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="Profile"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/white"
+                android:layout_marginRight="3dp"/>
+
+            <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,13 +140,5 @@
                 android:textColor="@color/white"
                 android:layout_marginRight="3dp"/>
         </LinearLayout>
-        -->
-        <LinearLayout
-            android:id="@+id/menu_bar_profile"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

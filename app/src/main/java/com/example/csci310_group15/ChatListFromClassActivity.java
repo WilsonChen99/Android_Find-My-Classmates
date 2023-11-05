@@ -3,6 +3,7 @@ package com.example.csci310_group15;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -35,6 +36,9 @@ public class ChatListFromClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+        // Fix navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
 
         // Get class info from DB
         Intent intent = getIntent();
@@ -85,6 +89,30 @@ public class ChatListFromClassActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Error in ChatListActivity");
             }
+        });
+
+        Button btnChat = findViewById(R.id.btnChat);
+        Button btnHome = findViewById(R.id.btnHome);
+        Button btnProf = findViewById(R.id.btnProf);
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        btnChat.setOnClickListener(view -> {
+            Intent intent1 = new Intent(this, ChatListActivity.class);
+            startActivity(intent1);
+        });
+        btnHome.setOnClickListener(view -> {
+            Intent intent1 = new Intent(this, MainActivity.class);
+            startActivity(intent1);
+        });
+        btnLogout.setOnClickListener(view -> {
+            mAuth.signOut();
+            Intent intent1 = new Intent(this, LoginActivity.class);
+            startActivity(intent1);
+        });
+
+        btnProf.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, ProfileActivity.class);
+            startActivity(intent1);
         });
     }
 

@@ -48,4 +48,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1")
 }

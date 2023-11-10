@@ -80,29 +80,6 @@ public class SignUpActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             imgUri = data.getData();
             img.setImageURI(imgUri);
-
-            StorageReference photoRef = storageRef.child("images").child(mAuth.getUid());
-            photoRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            downloadURL = uri;
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            System.out.println("Error getting URL");
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    System.out.println("Error in image upload");
-                }
-            });
         }
     }
 
@@ -145,13 +122,35 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String uid = mAuth.getUid();
-                            User user = new User(nam, mail, standing, downloadURL.toString(), id, uid);
-                            myRef.child("users").child(uid).setValue(user);
+                            StorageReference photoRef = storageRef.child("images").child(mAuth.getUid());
+                            photoRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            downloadURL = uri;
+                                            String uid = mAuth.getUid();
+                                            User user = new User(nam, mail, standing, downloadURL.toString(), id, uid);
+                                            myRef.child("users").child(uid).setValue(user);
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            System.out.println("Error getting URL");
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    System.out.println("Error in image upload");
+                                }
+                            });
                         } else {
                             Toast.makeText(SignUpActivity.this, "Sign up failed",
                                     Toast.LENGTH_LONG).show();

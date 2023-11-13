@@ -106,6 +106,13 @@ class Class
     private String time;
 
     // ============================================ [ Constructor ]
+    public Class(){
+        this.id = "";
+        this.department = "";
+        this.num = "";
+        this.instructor = "";
+        this.time = "";
+    }
 
     public Class(String id, String department, String num, String instructor, String time) {
         this.id = id;

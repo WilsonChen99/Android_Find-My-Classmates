@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     // Others
     private HashMap<String, Boolean> mDepartmentIsClicked = new HashMap<>();
-
     private boolean onPage = false;
+
 
     // [ Methods ]
     @Override

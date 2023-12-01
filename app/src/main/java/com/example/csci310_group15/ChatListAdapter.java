@@ -77,22 +77,34 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                         @Override
                         public void onClick(View v) {
                             myRef.child("blockedUsers").child(mAuth.getUid()).push().setValue(uid);
-                            myRef.child("contacts").child(mAuth.getUid()).orderByValue().equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        }
+                    });
+                } else {
+                    holder.getBlockBtn().setText("UNDO");
+                    holder.getBlockBtn().setBackgroundResource(R.drawable.block_btn);
+                    holder.getBlockBtn().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            myRef.child("blockedUsers").child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.getRef().removeValue();
+                                    for (DataSnapshot child: snapshot.getChildren()) {
+                                        String val = child.getValue(String.class);
+                                        if (val.equals(uid)) {
+                                            child.getRef().removeValue();
+                                            holder.getBlockBtn().setBackgroundResource(R.drawable.btn_bg);
+                                            holder.getBlockBtn().setText("BLOCK");
+                                        }
+                                    }
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-                                    System.out.println("Error deleting contact");
+                                    System.out.println("Error unblocking");
                                 }
                             });
                         }
                     });
-                } else {
-                    holder.getBlockBtn().setBackgroundResource(R.drawable.block_btn);
-                    holder.getBlockBtn().setEnabled(false);
                     holder.itemView.setOnClickListener(null);
                 }
             }

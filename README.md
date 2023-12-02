@@ -37,5 +37,8 @@ You can also block the user, where you'll no longer see the student, and he/she 
 You can go to the profile page and click on the "SETTINGS" button on top right corner of the page.
 You can then change name and standing as you wish.
 
-
+[ New Functionalities After Sprint ]
+1. Added the functionality to unblock a blocked user
+2. Added the functionality to change and update user profile picture
+3. Added the confirmation messages for profile changes.
 
